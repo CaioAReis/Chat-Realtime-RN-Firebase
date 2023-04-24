@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Avatar, Box, Center, HStack, Icon, IconButton, Image, Input, KeyboardAvoidingView, Pressable, Text } from "native-base";
+import { Avatar, Box, HStack, Icon, IconButton, Image, Input, KeyboardAvoidingView, Pressable, Text } from "native-base";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { Message } from "../components";
 
 const imageSize = Dimensions.get("window").width / 2;
 
@@ -13,56 +13,8 @@ export function Chat() {
       <KeyboardAvoidingView flex={1}>
 
         <Box flex={1} p={5}>
-
-
-          <HStack alignItems="flex-end" space={2}>
-            <Avatar size="sm" bg="danger.600">CA</Avatar>
-
-            <Box
-              p={3}
-              maxW="70%"
-              rounded="xl"
-              bg="gray.200"
-              roundedBottomLeft="xs"
-            >
-              <Text color="gray.600">
-                AIUSHDUASHDU auish diuash diuah sdiuah sdiuahsaushdiuash d
-              </Text>
-            </Box>
-
-            <Text
-              fontSize="10"
-              color="gray.500"
-            >
-              12/02/2023
-            </Text>
-          </HStack>
-
-          <HStack mt={10} alignItems="flex-end" space={2}>
-            <Avatar size="sm" bg="danger.600">CA</Avatar>
-
-            <Box
-              p={3}
-              maxW="70%"
-              rounded="xl"
-              bg="gray.200"
-              roundedBottomLeft="xs"
-            >
-              <Image
-                w={imageSize}
-                h={imageSize}
-                rounded="md"
-                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.N-2wKjiwWXkQL3M1-_Az2AHaFj%26pid%3DApi&f=1&ipt=4e0102194347edc2a4dba89517269fb0668f4368cb97ecc6904a6c8defe464af&ipo=images"
-              />
-            </Box>
-
-            <Text
-              fontSize="10"
-              color="gray.500"
-            >
-              12/02/2023
-            </Text>
-          </HStack>
+          <Message message={{ type: "text" }} />
+          <Message message={{ type: "image" }} />
 
           <HStack mt={10} justifyContent="flex-end" alignItems="flex-end" space={2}>
             <Text
