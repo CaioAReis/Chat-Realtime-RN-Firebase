@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Box, NativeBaseProvider } from 'native-base';
-import { Home, SignIn, SignUp } from './src/screens';
+import { Chat, Home, SignIn, SignUp } from './src/screens';
 
 export default function App() {
   return (
@@ -9,7 +9,8 @@ export default function App() {
 
       {/* <SignIn /> */}
       {/* <SignUp /> */}
-      <Home />
+      {/* <Home /> */}
+      <Chat />
 
       <StatusBar style="auto" />
     </NativeBaseProvider>

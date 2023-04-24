@@ -7,7 +7,7 @@ export function Home() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Box flex={1} borderWidth={1} borderColor="red.400">
+      <Box flex={1}>
         <HStack alignItems="center" space={3} p={3}>
           <Avatar bg="danger.600">CA</Avatar>
           <Text>Caio AReis</Text>
@@ -25,6 +25,7 @@ export function Home() {
           colorScheme="danger"
           renderInPortal={true}
           borderColor="danger.700"
+          onPress={() => alert("AOISJDOIS")}
           icon={
             <Icon
               color="white"
