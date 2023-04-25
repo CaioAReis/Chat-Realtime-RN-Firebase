@@ -1,6 +1,6 @@
 import { Avatar, Box, HStack, Text } from "native-base";
 
-export function MessageText({ message }) {
+export function MyMessageText({ message }) {
 
   const messageTxt = {
     _id: "1",
@@ -14,22 +14,22 @@ export function MessageText({ message }) {
   };
 
   return (
-    <HStack alignItems="flex-end" space={2} my={2}>
-      <Avatar size="sm" bg="danger.600">CA</Avatar>
+    <HStack justifyContent="flex-end" alignItems="flex-end" space={2} my={2}>
+      <Text fontSize="10" color="gray.500">12/02/2023</Text>
 
       <Box
         p={3}
         maxW="70%"
         rounded="xl"
-        bg="gray.200"
-        roundedBottomLeft="xs"
+        bg="danger.500"
+        roundedBottomRight="xs"
       >
-        <Text color="gray.600">
-          AIUSHDUASHDU auish diuash diuah sdiuah sdiuahsaushdiuash d
+        <Text color="white">
+          AIUSHDUASHDU ash d
         </Text>
       </Box>
 
-      <Text fontSize="10" color="gray.500">12/02/2023</Text>
+      <Avatar size="sm" bg="danger.600">CA</Avatar>
     </HStack>
   );
 }

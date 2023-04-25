@@ -1,9 +1,9 @@
-import { Avatar, Box, HStack, Image, Text } from "native-base";
 import { Dimensions } from "react-native";
+import { Avatar, Box, HStack, Image, Text } from "native-base";
 
 const imageSize = Dimensions.get("window").width / 2;
 
-export function MessageImage({ message }) {
+export function MyMessageImage({ message }) {
 
   const messageImg = {
     _id: "2",
@@ -17,26 +17,26 @@ export function MessageImage({ message }) {
   }
 
   return (
-    <HStack alignItems="flex-end" space={2} my={2}>
-      <Avatar size="sm" bg="danger.600">CA</Avatar>
+    <HStack justifyContent="flex-end" alignItems="flex-end" space={2} my={2}>
+      <Text fontSize="10" color="gray.500">12/02/2023</Text>
 
       <Box
         p={2}
         maxW="70%"
         rounded="xl"
-        bg="gray.200"
-        roundedBottomLeft="xs"
+        bg="danger.500"
+        roundedBottomRight="xs"
       >
         <Image
+          alt="AIUSHD"
           rounded="md"
-          alt="Image by user: "
-          roundedBottomLeft="xs"
+          roundedBottomRight="xs"
           w={imageSize} h={imageSize}
           src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.N-2wKjiwWXkQL3M1-_Az2AHaFj%26pid%3DApi&f=1&ipt=4e0102194347edc2a4dba89517269fb0668f4368cb97ecc6904a6c8defe464af&ipo=images"
         />
       </Box>
 
-      <Text fontSize="10" color="gray.500">12/02/2023</Text>
+      <Avatar size="sm" bg="danger.600">CA</Avatar>
     </HStack>
   );
 }
