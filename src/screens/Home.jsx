@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Avatar, Box, Center, Fab, HStack, Heading, Icon, Text } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { Avatar, Box, Fab, HStack, Heading, Icon, Text } from "native-base";
 
 export function Home() {
 
@@ -21,10 +20,8 @@ export function Home() {
           right={8}
           shadow={4}
           bottom={10}
-          borderWidth={3}
           colorScheme="danger"
           renderInPortal={true}
-          borderColor="danger.700"
           onPress={() => alert("AOISJDOIS")}
           icon={
             <Icon

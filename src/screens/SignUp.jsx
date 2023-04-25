@@ -6,6 +6,7 @@ import {
   Input,
   Stack,
   Button,
+  Center,
   Heading,
   Pressable,
   KeyboardAvoidingView,
@@ -23,9 +24,9 @@ export function SignUp() {
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView flex={1}>
         <ImageBackground style={{ flex: 1 }} source={BG}>
-          <Box flex={1} alignItems="center" justifyContent="center">
+          <Center flex={1}>
             <Heading>LOGO</Heading>
-          </Box>
+          </Center>
 
           <Box
             bg="white"
@@ -33,11 +34,8 @@ export function SignUp() {
             paddingY={10}
             borderTopRadius={20}
           >
-
-            <Box marginBottom={5}>
-              <Heading size="lg" color="gray.700">Sign up now</Heading>
-              <Text color="gray.500">Please register to continue</Text>
-            </Box>
+            <Heading size="lg" color="danger.500">Sign up now</Heading>
+            <Text marginBottom={5} color="gray.500">Please register to continue</Text>
 
             <Stack space={4} w="100%" alignItems="center">
               <Input
@@ -119,13 +117,12 @@ export function SignUp() {
               />
             </Stack>
 
-            <Button bg="gray.700" marginY={5}>SIGN UP</Button>
+            <Button bg="danger.500" marginY={5}>SIGN UP</Button>
 
             <Text textAlign="center">
-              Already user? <Text textDecorationLine="underline" color="blue.700">Sign in</Text>
+              Already user? <Text textDecorationLine="underline" color="danger.500">Sign in</Text>
             </Text>
           </Box>
-
         </ImageBackground>
       </KeyboardAvoidingView>
     </SafeAreaView>

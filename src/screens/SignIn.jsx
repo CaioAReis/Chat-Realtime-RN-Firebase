@@ -6,6 +6,7 @@ import {
   Input,
   Stack,
   Button,
+  Center,
   Heading,
   Pressable,
   KeyboardAvoidingView,
@@ -21,15 +22,10 @@ export function SignIn() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView flex={1} behavior="">
-
         <ImageBackground style={{ flex: 1 }} source={BG}>
-          <Box
-            flex={1}
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Center flex={1}>
             <Heading>LOGO</Heading>
-          </Box>
+          </Center>
 
           <Box
             bg="white"
@@ -37,10 +33,8 @@ export function SignIn() {
             paddingY={10}
             borderTopRadius={20}
           >
-            <Box marginBottom={5}>
-              <Heading size="lg" color="gray.700">Sign in now</Heading>
-              <Text color="gray.500">Please login to continue</Text>
-            </Box>
+            <Heading size="lg" color="danger.500">Sign in now</Heading>
+            <Text marginBottom={5} color="gray.500">Please login to continue</Text>
 
             <Stack space={4} w="100%" alignItems="center">
               <Input
@@ -48,7 +42,7 @@ export function SignIn() {
                 size="lg"
                 placeholder="Email"
                 variant="underlined"
-                borderColor={"gray.400"}
+                borderColor="gray.400"
                 focusOutlineColor="gray.700"
                 InputLeftElement={
                   <Icon
@@ -62,7 +56,7 @@ export function SignIn() {
                 size="lg"
                 placeholder="Senha"
                 variant="underlined"
-                borderColor={"gray.400"}
+                borderColor="gray.400"
                 focusOutlineColor="gray.700"
                 type={showPass ? "text" : "password"}
                 InputLeftElement={
@@ -84,19 +78,18 @@ export function SignIn() {
 
             <Text
               marginY={4}
-              color="blue.500"
               textAlign="right"
+              color="danger.500"
               textDecorationLine="underline"
             >
               Forgot Password?
             </Text>
 
-            <Button bg="gray.700" marginY={5}>SIGN IN</Button>
+            <Button bg="danger.500" marginY={5}>SIGN IN</Button>
 
             <Text textAlign="center">
-              New user? <Text textDecorationLine="underline" color="blue.500">Sign up</Text>
+              New user? <Text textDecorationLine="underline" color="danger.500">Sign up</Text>
             </Text>
-
           </Box>
         </ImageBackground>
       </KeyboardAvoidingView>

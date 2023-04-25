@@ -58,6 +58,7 @@ export function Chat() {
                 w={imageSize}
                 h={imageSize}
                 rounded="md"
+                alt="AIUSHD"
                 src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.N-2wKjiwWXkQL3M1-_Az2AHaFj%26pid%3DApi&f=1&ipt=4e0102194347edc2a4dba89517269fb0668f4368cb97ecc6904a6c8defe464af&ipo=images"
               />
             </Box>
