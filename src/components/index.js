@@ -6,6 +6,8 @@ import { MyMessage } from "./MyMessage";
 import { MyMessageText } from "./MyMessageText";
 import { MyMessageImage } from "./MyMessageImage";
 
+import { OptionsButton } from "./OptionsButton";
+
 export {
   Message,
   MessageText,
@@ -14,4 +16,6 @@ export {
   MyMessage,
   MyMessageText,
   MyMessageImage,
+
+  OptionsButton,
 };

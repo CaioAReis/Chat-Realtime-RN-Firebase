@@ -1,7 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Message, MyMessage, MyMessageImage, MyMessageText } from "../components";
-import { Box, HStack, Icon, IconButton, Input, KeyboardAvoidingView, Pressable, ScrollView } from "native-base";
+import { Message, MyMessage, MyMessageImage, MyMessageText, OptionsButton } from "../components";
+import { Box, Center, Fab, HStack, Icon, IconButton, Input, KeyboardAvoidingView, Pressable, ScrollView, Stagger, useDisclose } from "native-base";
 
 export function Chat() {
 
@@ -28,23 +28,28 @@ export function Chat() {
           bg="gray.100"
           position="absolute"
         >
+          <OptionsButton />
 
           <Input
-            mr={3}
+            mr={2}
+            ml={12}
             flex={1}
             size="md"
             color="gray.700"
             variant="unstyled"
             placeholder="Type a message"
-            InputLeftElement={
-              <Pressable onPress={() => alert("AKSDNJSA")}>
-                <Icon
-                  size={7}
-                  color={"gray.400"}
-                  as={<Ionicons name="attach" />}
-                />
-              </Pressable>
-            }
+          // InputLeftElement={
+
+          // <OptionsButton />
+
+          // <Pressable onPress={() => alert("AKSDNJSA")}>
+          //   <Icon
+          //     size={7}
+          //     color={"gray.400"}
+          //     as={<Ionicons name="attach" />}
+          //   />
+          // </Pressable>
+          // }
           />
 
           <IconButton
