@@ -6,8 +6,8 @@ export function OptionsButton() {
   const { isOpen, onToggle } = useDisclose();
 
   return (
-    <Center position="absolute" bottom={3} left={2} bg="red.500" >
-      <Box alignItems="center" minH="220" bg="blue.400">
+    <Center position="absolute" bottom={3} left={2} >
+      <Box alignItems="center" minH="220">
         <Stagger visible={isOpen}
           // w="full" zIndex={30}
           initial={{ opacity: 0, scale: 0, translateY: 34 }}
@@ -50,7 +50,7 @@ export function OptionsButton() {
       <HStack alignItems="center">
         <IconButton
           size="lg"
-          onPress={onToggle}
+          // onPress={onToggle}
           borderRadius="full"
           colorScheme="danger"
           icon={

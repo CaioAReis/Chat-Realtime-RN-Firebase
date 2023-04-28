@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export function SignIn() {
+export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
 
   return (
@@ -85,10 +85,27 @@ export function SignIn() {
               Forgot Password?
             </Text>
 
-            <Button bg="danger.500" marginY={5}>SIGN IN</Button>
+            <Button
+              marginY={5}
+              bg="danger.500"
+              colorScheme="danger"
+              onPress={() => {
+                alert("Fazer Login");
+                navigation.navigate("Home");
+              }}
+            >
+              SIGN IN
+            </Button>
 
             <Text textAlign="center">
-              New user? <Text textDecorationLine="underline" color="danger.500">Sign up</Text>
+              {"New user? "}
+              <Text
+                color="danger.500"
+                textDecorationLine="underline"
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                Sign up
+              </Text>
             </Text>
           </Box>
         </ImageBackground>

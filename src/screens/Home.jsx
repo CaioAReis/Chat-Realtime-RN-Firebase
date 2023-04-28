@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar, Box, Fab, HStack, Heading, Icon, Text } from "native-base";
 
-export function Home() {
+export function Home({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -21,10 +21,11 @@ export function Home() {
           shadow={4}
           bottom={10}
           colorScheme="danger"
-          renderInPortal={true}
-          onPress={() => alert("AOISJDOIS")}
+          renderInPortal={false}
+          onPress={() => navigation.navigate("Chat")}
           icon={
             <Icon
+              size={10}
               color="white"
               as={<Ionicons name="chatbubbles-outline" />}
             />

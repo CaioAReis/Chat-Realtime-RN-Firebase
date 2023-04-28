@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export function SignUp() {
+export function SignUp({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
   const [ showPassConfirm, setShowPassConfirm ] = useState(false);
 
@@ -117,10 +117,27 @@ export function SignUp() {
               />
             </Stack>
 
-            <Button bg="danger.500" marginY={5}>SIGN UP</Button>
+            <Button
+              marginY={5}
+              bg="danger.500"
+              colorScheme="danger"
+              onPress={() => {
+                alert("Criar conta!")
+                navigation.navigate("SignIn");
+              }}
+            >
+              SIGN UP
+            </Button>
 
             <Text textAlign="center">
-              Already user? <Text textDecorationLine="underline" color="danger.500">Sign in</Text>
+              {"Already user? "}
+              <Text
+                color="danger.500"
+                textDecorationLine="underline"
+                onPress={() => navigation.navigate("SignIn")}
+              >
+                Sign in
+              </Text>
             </Text>
           </Box>
         </ImageBackground>

@@ -1,18 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { Box, NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import { Chat, Home, SignIn, SignUp } from './src/screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+function StackRoutes() {
+  return (
+    <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Chat" component={Chat} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      {/* <Box flex={1} alignItems="center" justifyContent="center" bg="red.400" >Hello world</Box> */}
-
-      {/* <SignIn /> */}
-      {/* <SignUp /> */}
-      {/* <Home /> */}
-      <Chat />
-
-      <StatusBar style="auto" />
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        <StackRoutes />
+        <StatusBar style="auto" />
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }
