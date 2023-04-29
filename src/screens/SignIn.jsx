@@ -9,15 +9,40 @@ import {
   Center,
   Heading,
   Pressable,
+  FormControl,
+  WarningOutlineIcon,
   KeyboardAvoidingView,
 } from "native-base";
+import { auth } from "../config/firebase";
 import BG from "../../assets/images/BG.png";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Controller, useForm } from "react-hook-form";
 
 export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
+
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: { email: '', password: '' }
+  });
+
+  const handleSignIn = data => {
+
+    signInWithEmailAndPassword(auth, data?.email, data?.password)
+      .then((userCredencial) => {
+        //  Signed in
+        const user = userCredencial?.user;
+        console.warn(user);
+        //  ...
+      })
+      .catch((error) => {
+        const errorCode = error?.code;
+        const errorMessage = error?.message;
+        console.error(errorCode);
+      });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -37,42 +62,80 @@ export function SignIn({ navigation }) {
             <Text marginBottom={5} color="gray.500">Please login to continue</Text>
 
             <Stack space={4} w="100%" alignItems="center">
-              <Input
-                mb={3}
-                size="lg"
-                placeholder="Email"
-                variant="underlined"
-                borderColor="gray.400"
-                focusOutlineColor="gray.700"
-                InputLeftElement={
-                  <Icon
-                    mr={3} size={5} color="gray.700"
-                    as={<Ionicons name="mail-outline" />}
-                  />
-                }
+              <Controller
+                name="email"
+                control={control}
+                rules={{ required: "Email is required." }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormControl isRequired isInvalid={errors?.email} mb={3}>
+                    <Stack>
+                      <Input
+                        size="lg"
+                        value={value}
+                        onBlur={onBlur}
+                        placeholder="Email"
+                        variant="underlined"
+                        borderColor="gray.400"
+                        onChangeText={onChange}
+                        focusOutlineColor="gray.700"
+                        InputLeftElement={
+                          <Icon
+                            mr={3} size={5}
+                            color={errors?.email ? "danger.500" : "gray.600"}
+                            as={<Ionicons name="mail-outline" />}
+                          />
+                        }
+                      />
+
+                      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                        {errors?.email?.message}
+                      </FormControl.ErrorMessage>
+                    </Stack>
+                  </FormControl>
+                )}
               />
 
-              <Input
-                size="lg"
-                placeholder="Senha"
-                variant="underlined"
-                borderColor="gray.400"
-                focusOutlineColor="gray.700"
-                type={showPass ? "text" : "password"}
-                InputLeftElement={
-                  <Icon
-                    mr={3} size={5} color="gray.600"
-                    as={<Ionicons name="lock-closed-outline" />}
-                  />
-                }
-                InputRightElement={
-                  <Pressable onPress={() => setShowPass(!showPass)}>
-                    <Icon
-                      ml={3} size={5} color="gray.600"
-                      as={<Ionicons name={showPass ? "eye-outline" : "eye-off-outline"} />}
-                    />
-                  </Pressable>
-                }
+              <Controller
+                name="password"
+                control={control}
+                rules={{ required: "Password is required." }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormControl isRequired isInvalid={errors?.password} mb={3}>
+                    <Stack>
+                      <Input
+                        size="lg"
+                        value={value}
+                        onBlur={onBlur}
+                        variant="underlined"
+                        placeholder="Password"
+                        borderColor="gray.400"
+                        onChangeText={onChange}
+                        focusOutlineColor="gray.700"
+                        type={showPass ? "text" : "password"}
+                        InputLeftElement={
+                          <Icon
+                            mr={3} size={5}
+                            as={<Ionicons name="lock-closed-outline" />}
+                            color={errors?.password ? "danger.500" : "gray.600"}
+                          />
+                        }
+                        InputRightElement={
+                          <Pressable onPress={() => setShowPass(!showPass)}>
+                            <Icon
+                              ml={3} size={5}
+                              color={errors?.password ? "danger.500" : "gray.600"}
+                              as={<Ionicons name={showPass ? "eye-outline" : "eye-off-outline"} />}
+                            />
+                          </Pressable>
+                        }
+                      />
+
+                      <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                        {errors?.password?.message}
+                      </FormControl.ErrorMessage>
+                    </Stack>
+                  </FormControl>
+                )}
               />
             </Stack>
 
@@ -89,10 +152,7 @@ export function SignIn({ navigation }) {
               marginY={5}
               bg="danger.500"
               colorScheme="danger"
-              onPress={() => {
-                alert("Fazer Login");
-                navigation.navigate("Home");
-              }}
+              onPress={handleSubmit(handleSignIn)}
             >
               SIGN IN
             </Button>
