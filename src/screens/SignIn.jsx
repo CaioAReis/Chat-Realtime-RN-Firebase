@@ -17,9 +17,9 @@ import { auth } from "../config/firebase";
 import BG from "../../assets/images/BG.png";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
@@ -49,7 +49,7 @@ export function SignIn({ navigation }) {
       <KeyboardAvoidingView flex={1} behavior="">
         <ImageBackground style={{ flex: 1 }} source={BG}>
           <Center flex={1}>
-            <Heading>LOGO</Heading>
+            <Heading bg="white" w="full" textAlign="center" py={2}>LOGO</Heading>
           </Center>
 
           <Box
@@ -77,7 +77,6 @@ export function SignIn({ navigation }) {
                         variant="underlined"
                         borderColor="gray.400"
                         onChangeText={onChange}
-                        focusOutlineColor="gray.700"
                         InputLeftElement={
                           <Icon
                             mr={3} size={5}
@@ -110,7 +109,6 @@ export function SignIn({ navigation }) {
                         placeholder="Password"
                         borderColor="gray.400"
                         onChangeText={onChange}
-                        focusOutlineColor="gray.700"
                         type={showPass ? "text" : "password"}
                         InputLeftElement={
                           <Icon
