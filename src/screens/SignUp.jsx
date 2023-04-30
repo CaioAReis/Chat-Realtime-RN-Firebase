@@ -5,23 +5,28 @@ import {
   Text,
   Input,
   Stack,
+  Toast,
+  Alert,
   Button,
   Center,
+  VStack,
   Heading,
   Pressable,
   FormControl,
   WarningOutlineIcon,
   KeyboardAvoidingView,
 } from "native-base";
-import { auth } from "../config/firebase";
 import BG from "../../assets/images/BG.png";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
+import { auth, database } from "../config/firebase";
 import { Controller, useForm } from "react-hook-form";
+import { addDoc, collection } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export function SignUp({ navigation }) {
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ showPass, setShowPass ] = useState(false);
   const [ showPassConfirm, setShowPassConfirm ] = useState(false);
 
@@ -30,20 +35,58 @@ export function SignUp({ navigation }) {
   });
 
   const handleSignUp = data => {
-
+    setIsLoading(true);
     createUserWithEmailAndPassword(auth, data?.email, data?.password)
       .then((userCredencial) => {
         //  Signed in
         const user = userCredencial?.user;
-        console.warn(user);
-        //  ...
+        //  Registering the user in Firestore
+        addDoc(collection(database, "users"), {
+          uid: user?.uid,
+          name: data?.name,
+          email: data?.email,
+        });
+        // Success Toast!
+        Toast.show({
+          render: () => (
+            <Alert w="100%" variant="top-accent" status="success">
+              <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+                <Alert.Icon size="md" />
+                <Text fontSize="md" fontWeight="medium">
+                  Account created!
+                </Text>
+                <Text textAlign="center">
+                  Congratulations, your account has been successfully created! Login now!
+                </Text>
+              </VStack>
+            </Alert>
+          )
+        });
+        //  Navigate to SignIn
+        navigation.navigate("SignIn");
       })
       .catch((error) => {
         const errorCode = error?.code;
         const errorMessage = error?.message;
+        // Error Toast
+        Toast.show({
+          render: () => (
+            <Alert w="100%" variant="top-accent" status="error">
+              <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+                <Alert.Icon size="md" />
+                <Text fontSize="md" fontWeight="medium">
+                  Oops! Something went wrong.
+                </Text>
+                <Text textAlign="center">
+                  An unexpected error has occurred. Try again later.
+                </Text>
+              </VStack>
+            </Alert>
+          )
+        });
+
         console.error(errorCode, errorMessage);
-        //  ...
-      });
+      }).finally(() => setIsLoading(false));
   }
 
   return (
@@ -228,6 +271,8 @@ export function SignUp({ navigation }) {
               marginY={5}
               bg="danger.500"
               colorScheme="danger"
+              disabled={isLoading}
+              isLoading={isLoading}
               onPress={handleSubmit(handleSignUp)}
             >
               SIGN UP
