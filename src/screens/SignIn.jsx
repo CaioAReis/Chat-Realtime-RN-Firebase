@@ -5,8 +5,11 @@ import {
   Text,
   Input,
   Stack,
+  Alert,
+  Toast,
   Button,
   Center,
+  VStack,
   Heading,
   Pressable,
   FormControl,
@@ -23,25 +26,49 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { email: '', password: '' }
   });
 
   const handleSignIn = data => {
-
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, data?.email, data?.password)
       .then((userCredencial) => {
         //  Signed in
         const user = userCredencial?.user;
-        console.warn(user);
+
+        //  Save user session
         //  ...
+
+        //  Navigate to Home
+        navigation.navigate("Home");
+
+        console.warn(user);
       })
       .catch((error) => {
         const errorCode = error?.code;
         const errorMessage = error?.message;
+        // Error Toast
+        Toast.show({
+          render: () => (
+            <Alert w="100%" variant="top-accent" status="error">
+              <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+                <Alert.Icon size="md" />
+                <Text fontSize="md" fontWeight="medium">
+                  Oops! Something went wrong.
+                </Text>
+                <Text textAlign="center">
+                  Email or password is invalid.
+                </Text>
+              </VStack>
+            </Alert>
+          )
+        });
+
         console.error(errorCode);
-      });
+      }).finally(() => setIsLoading(false));
   }
 
   return (
@@ -150,6 +177,8 @@ export function SignIn({ navigation }) {
               marginY={5}
               bg="danger.500"
               colorScheme="danger"
+              disabled={isLoading}
+              isLoading={isLoading}
               onPress={handleSubmit(handleSignIn)}
             >
               SIGN IN
