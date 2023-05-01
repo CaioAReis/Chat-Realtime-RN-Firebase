@@ -16,16 +16,15 @@ import {
   WarningOutlineIcon,
   KeyboardAvoidingView,
 } from "native-base";
-import { auth, database } from "../config/firebase";
 import BG from "../../assets/images/BG.png";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, database } from "../config/firebase";
 import { Controller, useForm } from "react-hook-form";
+import { SessionContext } from "../config/SessionContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { SessionContext } from "../config/SessionContext";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
@@ -43,29 +42,22 @@ export function SignIn({ navigation }) {
       .then(async (userCredencial) => {
         //  Signed in
         const authUser = userCredencial?.user;
-        // console.warn(authUser);
 
-        // const q = query(collection(database, "users"), where("uid", "==", authUser.uid));
-        // const userRef = doc(database, "users", authUser.uid);
-        // const userDoc = await getDocs(q);
-        // const userSnap = await getDoc(userRef).then(res => res.data());
-
-        // const userRef = (await getDoc(database)).data()
-
-        // query(collection(database, "users"), where("uid", "==", authUser.uid));
-        // const userData = getDoc(userQuery);
+        //  Getting the user reference
+        const userRef = doc(database, "users", authUser.uid);
+        //  Getting the user data
+        const userDoc = await getDoc(userRef);
 
         //  Save user session in Context
-        setSession(authUser);
+        setSession(userDoc.data());
 
         //  Navigate to Home
         navigation.navigate("Home");
-
-        // console.warn(userDoc.size);
       })
       .catch((error) => {
         const errorCode = error?.code;
-        const errorMessage = error?.message;
+        // const errorMessage = error?.message;
+
         // Error Toast
         Toast.show({
           render: () => (
@@ -76,14 +68,12 @@ export function SignIn({ navigation }) {
                   Oops! Something went wrong.
                 </Text>
                 <Text textAlign="center">
-                  Email or password is invalid.
+                  {errorCode}
                 </Text>
               </VStack>
             </Alert>
           )
         });
-
-        console.error(errorCode);
       }).finally(() => setIsLoading(false));
   }
 
