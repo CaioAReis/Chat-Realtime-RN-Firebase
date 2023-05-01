@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Box,
   Icon,
@@ -16,7 +16,7 @@ import {
   WarningOutlineIcon,
   KeyboardAvoidingView,
 } from "native-base";
-import { auth } from "../config/firebase";
+import { auth, database } from "../config/firebase";
 import BG from "../../assets/images/BG.png";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
@@ -24,9 +24,14 @@ import { Controller, useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { SessionContext } from "../config/SessionContext";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+
 export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
+
+  const setSession = useContext(SessionContext)[ 1 ];
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { email: '', password: '' }
@@ -35,17 +40,28 @@ export function SignIn({ navigation }) {
   const handleSignIn = data => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, data?.email, data?.password)
-      .then((userCredencial) => {
+      .then(async (userCredencial) => {
         //  Signed in
-        const user = userCredencial?.user;
+        const authUser = userCredencial?.user;
+        // console.warn(authUser);
 
-        //  Save user session
-        //  ...
+        // const q = query(collection(database, "users"), where("uid", "==", authUser.uid));
+        // const userRef = doc(database, "users", authUser.uid);
+        // const userDoc = await getDocs(q);
+        // const userSnap = await getDoc(userRef).then(res => res.data());
+
+        // const userRef = (await getDoc(database)).data()
+
+        // query(collection(database, "users"), where("uid", "==", authUser.uid));
+        // const userData = getDoc(userQuery);
+
+        //  Save user session in Context
+        setSession(authUser);
 
         //  Navigate to Home
         navigation.navigate("Home");
 
-        console.warn(user);
+        // console.warn(userDoc.size);
       })
       .catch((error) => {
         const errorCode = error?.code;

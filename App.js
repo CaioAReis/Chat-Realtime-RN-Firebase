@@ -1,8 +1,10 @@
+import { createContext, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import { Chat, Home, SignIn, SignUp } from './src/screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SessionProvider } from './src/config/SessionContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,11 +21,13 @@ function StackRoutes() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <NativeBaseProvider>
-        <StackRoutes />
-        <StatusBar style="auto" />
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <SessionProvider>
+      <NavigationContainer>
+        <NativeBaseProvider>
+          <StackRoutes />
+          <StatusBar style="auto" />
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </SessionProvider>
   );
 }
