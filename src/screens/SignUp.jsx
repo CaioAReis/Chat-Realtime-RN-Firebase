@@ -21,7 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ImageBackground } from "react-native";
 import { auth, database } from "../config/firebase";
 import { Controller, useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -40,12 +40,16 @@ export function SignUp({ navigation }) {
       .then((userCredencial) => {
         //  Signed in
         const user = userCredencial?.user;
+
+        //  Getting the user collection reference
+        const usersRef = collection(database, "users");
+
         //  Registering the user in Firestore
-        addDoc(collection(database, "users"), {
-          uid: user?.uid,
+        setDoc(doc(usersRef, user.uid), {
           name: data?.name,
           email: data?.email,
         });
+
         // Success Toast!
         Toast.show({
           render: () => (
