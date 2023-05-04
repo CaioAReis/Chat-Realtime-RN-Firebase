@@ -24,6 +24,9 @@ export function MessageText({ message }) {
         bg="gray.200"
         roundedBottomLeft="xs"
       >
+        <Text fontSize={11} fontWeight="bold" color="danger.600" mb={2}>
+          CAIO ALMEIDA
+        </Text>
         <Text color="gray.600">
           AIUSHDUASHDU auish diuash diuah sdiuah sdiuahsaushdiuash d
         </Text>

@@ -27,6 +27,9 @@ export function MessageImage({ message }) {
         bg="gray.200"
         roundedBottomLeft="xs"
       >
+        <Text fontSize={11} fontWeight="bold" color="danger.600" mb={2}>
+          CAIO ALMEIDA
+        </Text>
         <Image
           rounded="md"
           alt="Image by user: "
