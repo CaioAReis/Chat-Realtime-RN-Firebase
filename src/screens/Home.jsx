@@ -5,7 +5,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar, Box, Fab, HStack, Heading, Icon, Pressable, Text } from "native-base";
 
 export function Home({ navigation }) {
-
   const [ session, setSession ] = useContext(SessionContext);
 
   const handleLogOut = () => {

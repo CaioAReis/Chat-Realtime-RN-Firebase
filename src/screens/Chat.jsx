@@ -1,23 +1,68 @@
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { useContext, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Message, MyMessage, MyMessageImage, MyMessageText, OptionsButton } from "../components";
-import { Box, Center, Fab, HStack, Icon, IconButton, Input, KeyboardAvoidingView, Pressable, ScrollView, Stagger, useDisclose } from "native-base";
+import { Message, MyMessage, OptionsButton } from "../components";
+import { Box, Center, HStack, Heading, Icon, IconButton, Image, Input, KeyboardAvoidingView, ScrollView } from "native-base";
+
+import { database } from "../config/firebase";
+import { SessionContext } from "../config/SessionContext";
+import NoMessages from "../../assets/images/NoMessages.png";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 
 export function Chat() {
+
+  const [ messages, setMessages ] = useState([]);
+  const session = useContext(SessionContext)[ 0 ];
+  const [ isSending, setIsSending ] = useState(false);
+  const [ textMessage, setTextMessage ] = useState("");
+
+  const onSend = () => {
+    if (!Boolean(textMessage)) return;
+
+    setIsSending(true);
+
+    const body = {
+      type: "text",
+      message: textMessage,
+      createdAt: Timestamp.now(),
+      user: {
+        uid: session?.uid,
+        name: session?.name,
+      }
+    }
+
+    addDoc(collection(database, "chat"), body)
+      .then(() => {
+        setMessages(prev => {
+          prev.push(body);
+          return prev;
+        });
+
+        setTextMessage("");
+        setIsSending(false);
+      }).catch(() => { alert("Ocorreu um erro!!"); });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView flex={1}>
-
+        {/* {messages?.length ? ( */}
         <ScrollView px={5}>
-          <Message message={{ type: "text" }} />
-          <Message message={{ type: "image" }} />
-
-          <MyMessage message={{ type: "text" }} />
-          <MyMessage message={{ type: "image" }} />
+          {messages.map(message => {
+            message?.user?.uid === session?.uid
+              ? <MyMessage message={{ ...message }} />
+              : <Message message={{ ...message }} />
+          }
+          )}
 
           <Box h={100} />
         </ScrollView>
+        {/* // ) : (
+        //   <Center flex={1}>
+        //     <Image alt="No messages" source={NoMessages} size={200} />
+        //     <Heading mt={3}>No messages!</Heading>
+        //   </Center>
+        // )} */}
 
         <HStack
           p={3}
@@ -37,7 +82,9 @@ export function Chat() {
             size="md"
             color="gray.700"
             variant="unstyled"
+            value={textMessage}
             placeholder="Type a message"
+            onChangeText={e => setTextMessage(e)}
           // InputLeftElement={
 
           // <OptionsButton />
@@ -55,7 +102,8 @@ export function Chat() {
           <IconButton
             rounded="full"
             bg="danger.500"
-            onPress={() => alert("SEND")}
+            onPress={onSend}
+            isDisabled={isSending}
             icon={
               <Icon
                 size={6}

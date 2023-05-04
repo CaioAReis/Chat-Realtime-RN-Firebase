@@ -46,6 +46,7 @@ export function SignUp({ navigation }) {
 
         //  Registering the user in Firestore
         setDoc(doc(usersRef, user.uid), {
+          uid: user?.uid,
           name: data?.name,
           email: data?.email,
         });
