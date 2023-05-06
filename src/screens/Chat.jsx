@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Message, MyMessage, OptionsButton } from "../components";
-import { Box, Center, HStack, Heading, Icon, IconButton, Image, Input, KeyboardAvoidingView, ScrollView } from "native-base";
+import { Center, FlatList, HStack, Heading, Icon, IconButton, Image, Input, KeyboardAvoidingView } from "native-base";
 
 import { database } from "../config/firebase";
 import { SessionContext } from "../config/SessionContext";
 import NoMessages from "../../assets/images/NoMessages.png";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 export function Chat() {
 
@@ -15,6 +15,18 @@ export function Chat() {
   const session = useContext(SessionContext)[ 0 ];
   const [ isSending, setIsSending ] = useState(false);
   const [ textMessage, setTextMessage ] = useState("");
+
+  useLayoutEffect(() => {
+    const collectionRef = collection(database, "chat");
+    const q = query(collectionRef, orderBy("createdAt"));
+
+    const unsubscribe = onSnapshot(q, snapshot => {
+      setMessages(snapshot.docs.map(doc => doc.data()));
+    });
+
+    return unsubscribe;
+  }, []);
+
 
   const onSend = () => {
     if (!Boolean(textMessage)) return;
@@ -32,46 +44,37 @@ export function Chat() {
     }
 
     addDoc(collection(database, "chat"), body)
-      .then(() => {
-        setMessages(prev => {
-          prev.push(body);
-          return prev;
-        });
-
-        setTextMessage("");
-        setIsSending(false);
-      }).catch(() => { alert("Ocorreu um erro!!"); });
+      // .then(() => setMessages(prev => { prev.push(body); return prev; }))
+      .catch(() => { alert("Ocorreu um erro!!"); })
+      .finally(() => { setTextMessage(""); setIsSending(false); });
   }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView flex={1}>
-        {/* {messages?.length ? ( */}
-        <ScrollView px={5}>
-          {messages.map(message => {
-            message?.user?.uid === session?.uid
-              ? <MyMessage message={{ ...message }} />
-              : <Message message={{ ...message }} />
-          }
-          )}
+        <FlatList
+          px={5}
+          data={messages}
+          renderItem={({ item, index }) => {
+            return item?.user?.uid === session?.uid
+              ? <MyMessage message={item} key={index} />
+              : <Message message={item} key={index} />
+          }}
 
-          <Box h={100} />
-        </ScrollView>
-        {/* // ) : (
-        //   <Center flex={1}>
-        //     <Image alt="No messages" source={NoMessages} size={200} />
-        //     <Heading mt={3}>No messages!</Heading>
-        //   </Center>
-        // )} */}
+          ListEmptyComponent={
+            <Center flex={1} marginTop={20}>
+              <Image alt="No messages" source={NoMessages} size={200} />
+              <Heading mt={3}>No messages!</Heading>
+            </Center>
+          }
+        />
 
         <HStack
           p={3}
-          bottom={2}
+          m={3}
           shadow={2}
-          marginX={2}
           rounded="lg"
-          bg="gray.100"
-          position="absolute"
+          bg="gray.200"
         >
           <OptionsButton />
 
@@ -85,18 +88,6 @@ export function Chat() {
             value={textMessage}
             placeholder="Type a message"
             onChangeText={e => setTextMessage(e)}
-          // InputLeftElement={
-
-          // <OptionsButton />
-
-          // <Pressable onPress={() => alert("AKSDNJSA")}>
-          //   <Icon
-          //     size={7}
-          //     color={"gray.400"}
-          //     as={<Ionicons name="attach" />}
-          //   />
-          // </Pressable>
-          // }
           />
 
           <IconButton

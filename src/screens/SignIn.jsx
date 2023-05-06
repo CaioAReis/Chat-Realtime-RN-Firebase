@@ -30,7 +30,7 @@ export function SignIn({ navigation }) {
   const [ showPass, setShowPass ] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
 
-  const setSession = useContext(SessionContext)[ 1 ];
+  const [ session, setSession ] = useContext(SessionContext);
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { email: '', password: '' }
@@ -75,7 +75,7 @@ export function SignIn({ navigation }) {
           )
         });
       }).finally(() => setIsLoading(false));
-  }
+  } 
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
