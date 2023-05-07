@@ -1,7 +1,7 @@
 import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { Message, MyMessage } from "../components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Message, MyMessage, OptionsButton } from "../components";
 import { Center, FlatList, HStack, Heading, Icon, IconButton, Image, Input, KeyboardAvoidingView } from "native-base";
 
 import { database } from "../config/firebase";
@@ -80,11 +80,8 @@ export function Chat() {
           rounded="lg"
           bg="gray.200"
         >
-          <OptionsButton />
-
           <Input
             mr={2}
-            ml={12}
             flex={1}
             size="md"
             color="gray.700"
