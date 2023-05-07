@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Message, MyMessage, OptionsButton } from "../components";
@@ -11,6 +11,7 @@ import { Timestamp, addDoc, collection, onSnapshot, orderBy, query } from "fireb
 
 export function Chat() {
 
+  const chatRef = useRef();
   const [ messages, setMessages ] = useState([]);
   const session = useContext(SessionContext)[ 0 ];
   const [ isSending, setIsSending ] = useState(false);
@@ -26,7 +27,6 @@ export function Chat() {
 
     return unsubscribe;
   }, []);
-
 
   const onSend = () => {
     if (!Boolean(textMessage)) return;
@@ -44,9 +44,9 @@ export function Chat() {
     }
 
     addDoc(collection(database, "chat"), body)
-      // .then(() => setMessages(prev => { prev.push(body); return prev; }))
+      .then(() => setTextMessage(""))
       .catch(() => { alert("Ocorreu um erro!!"); })
-      .finally(() => { setTextMessage(""); setIsSending(false); });
+      .finally(() => setIsSending(false));
   }
 
   return (
@@ -54,6 +54,7 @@ export function Chat() {
       <KeyboardAvoidingView flex={1}>
         <FlatList
           px={5}
+          ref={chatRef}
           data={messages}
           renderItem={({ item, index }) => {
             return item?.user?.uid === session?.uid
@@ -67,6 +68,9 @@ export function Chat() {
               <Heading mt={3}>No messages!</Heading>
             </Center>
           }
+
+          onLayout={() => messages.length ? chatRef?.current?.scrollToEnd() : null}
+          onContentSizeChange={() => messages.length ? chatRef?.current?.scrollToEnd() : null}
         />
 
         <HStack
