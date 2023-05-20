@@ -1,7 +1,5 @@
 # Chat Realtime with React Native and Firebase
 
-Aplicação desenvolvida em React Native com o intuito de estudar Firebase e native Base
-
 ## Pré-requisitos
 
  - Ter um projeto [Firebase](https://console.firebase.google.com/) configurado.
@@ -27,6 +25,9 @@ Para rodar o projeto execute o seguinte comando na pasta do projeto:
 Basta lê o QrCode gerado atraves do aplicativo do Expo Go instalado em seu smartphone.
 
 ## Resultado
-
+<img src = "./assets/images/1.jpeg" width=250>
+<img src = "./assets/images/2.jpeg" width=250>
+<img src = "./assets/images/3.jpeg" width=250>
+<img src = "./assets/images/4.jpeg" width=250>
 
 ## Valeu pela visita! 😉
