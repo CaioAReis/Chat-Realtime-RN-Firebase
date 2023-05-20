@@ -25,9 +25,14 @@ Para rodar o projeto execute o seguinte comando na pasta do projeto:
 Basta lê o QrCode gerado atraves do aplicativo do Expo Go instalado em seu smartphone.
 
 ## Resultado
-<img src = "./assets/images/1.jpeg" width=250>
-<img src = "./assets/images/2.jpeg" width=250>
-<img src = "./assets/images/3.jpeg" width=250>
-<img src = "./assets/images/4.jpeg" width=250>
+ <p align="center">
+  <img src = "./assets/images/1.jpeg" width=250>
+  <img src = "./assets/images/2.jpeg" width=250>
+ </p>
+ 
+ <p align="center">
+  <img src = "./assets/images/3.jpeg" width=250>
+  <img src = "./assets/images/4.jpeg" width=250>
+ </p>
 
 ## Valeu pela visita! 😉
